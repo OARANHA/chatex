@@ -9,8 +9,7 @@ WORKDIR /app
 COPY package*.json ./
 COPY tsconfig.json ./
 
-# Instalar yarn e dependências
-RUN npm install -g yarn
+# Instalar dependências (yarn já vem com Node.js)
 RUN yarn cache clean
 RUN yarn install --production --ignore-engines
 RUN yarn cache clean
@@ -26,9 +25,8 @@ FROM node:20-alpine AS production
 
 WORKDIR /app
 
-# Instalar yarn e dependências de produção
+# Instalar dependências de produção (yarn já vem com Node.js)
 COPY package*.json ./
-RUN npm install -g yarn
 RUN yarn cache clean
 RUN yarn install --production --ignore-engines
 
