@@ -1,34 +1,53 @@
-FROM node:18-bookworm-slim as global-deps-stage
+FROM node:20-alpine AS builder
+
+# Instalar dependências de build
+RUN apk add --no-cache python3 make g++
 
 WORKDIR /app
 
-RUN apt-get update \
-  && apt-get install -y wget gnupg nano ffmpeg=7:5.1.4-0+deb12u1 \
-  && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
-  && sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
-  && apt-get update \
-  && apt-get install -y google-chrome-stable fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-kacst fonts-freefont-ttf libxss1 \
-  --no-install-recommends \
-  && rm -rf /var/lib/apt/lists/* && npm install pm2@latest -g
-
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
-ENV NODE_ENV=dev
-ENV CHROME_BIN=google-chrome-stable
-
-FROM global-deps-stage as develop-stage
+# Copiar package files
 COPY package*.json ./
-RUN npm install
+COPY tsconfig.json ./
 
-FROM develop-stage as build-stage
+# Instalar dependências
+RUN npm ci --only=production && npm cache clean --force
+
+# Copiar código fonte
 COPY . .
+
+# Buildar aplicação
 RUN npm run build
 
-FROM build-stage as development-stage
-ENV NODE_ENV=development
-ENTRYPOINT ["npm", "run", "dev:server"]
+# Production stage
+FROM node:20-alpine AS production
 
-FROM build-stage as production-stage
-ENV NODE_ENV=production
-COPY docker-entrypoint.sh .
-RUN chmod +x docker-entrypoint.sh
-ENTRYPOINT ["./docker-entrypoint.sh"]
+WORKDIR /app
+
+# Instalar dependências de produção
+COPY package*.json ./
+RUN npm ci --only=production && npm cache clean --force
+
+# Copiar build
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/public ./public
+
+# Criar diretórios necessários
+RUN mkdir -p logs uploads
+
+# Criar usuário não-root
+RUN addgroup -g 1001 -S nodejs
+RUN adduser -S nodejs -u 1001
+
+# Permissões
+RUN chown -R nodejs:nodejs /app
+USER nodejs
+
+# Expor porta
+EXPOSE 3000
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD node -e "require('http').get('http://localhost:3000/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"
+
+# Start command
+CMD ["node", "dist/server.js"]

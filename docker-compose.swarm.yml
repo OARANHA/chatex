@@ -1,0 +1,96 @@
+version: '3.8'
+
+services:
+  backend:
+    image: chatex-backend:latest
+    networks:
+      - network_public
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - DB_HOST=postgres-28webchatex
+      - DB_PORT=5432
+      - POSTGRES_USER=28webchatex
+      - POSTGRES_PASSWORD=28webchatex@2024
+      - POSTGRES_DB=28webchatex
+      - IO_REDIS_SERVER=redis-28webchatex
+      - IO_REDIS_PORT=6379
+      - IO_REDIS_PASSWORD=28webchatex@2024
+      - BACKEND_URL=https://chatexend.28web.com.br
+      - FRONTEND_URL=https://chatex.28web.com.br
+      - JWT_SECRET=jwt_secret_chatex_2024_very_secure_key_change_me
+      - JWT_REFRESH_SECRET=jwt_refresh_secret_chatex_2024_very_secure_key_change_me
+      - ADMIN_DOMAIN=28web.com.br
+      - PROXY_PORT=3000
+      - URL_FRONTEND=https://chatex.28web.com.br
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.chatex-backend.rule=Host(`chatexend.28web.com.br`)"
+        - "traefik.http.routers.chatex-backend.entrypoints=websecure"
+        - "traefik.http.routers.chatex-backend.tls.certresolver=letsencryptresolver"
+        - "traefik.http.services.chatex-backend.loadbalancer.server.port=3000"
+
+  frontend:
+    image: chatex-frontend:latest
+    networks:
+      - network_public
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.chatex-frontend.rule=Host(`chatex.28web.com.br`)"
+        - "traefik.http.routers.chatex-frontend.entrypoints=websecure"
+        - "traefik.http.routers.chatex-frontend.tls.certresolver=letsencryptresolver"
+        - "traefik.http.services.chatex-frontend.loadbalancer.server.port=80"
+
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=28webchatex
+      - POSTGRES_PASSWORD=28webchatex@2024
+      - POSTGRES_DB=28webchatex
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - network_public
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      labels:
+        - "traefik.enable=false"
+
+  redis:
+    image: redis:7-alpine
+    command: redis-server --requirepass 28webchatex@2024 --appendonly yes
+    volumes:
+      - redis-data:/data
+    networks:
+      - network_public
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      labels:
+        - "traefik.enable=false"
+
+networks:
+  network_public:
+    external: true
+    name: network_public
+
+volumes:
+  postgres-data:
+    driver: local
+  redis-data:
+    driver: local
