@@ -17,5 +17,5 @@ DockerfileARM
 .data
 .vscode
 logs
-public
+# public - necessário para o build
 .wwebjs_auth
