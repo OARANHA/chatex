@@ -10,7 +10,8 @@ COPY package*.json ./
 COPY tsconfig.json ./
 
 # Instalar dependências
-RUN npm install --production --legacy-peer-deps
+RUN npm cache clean --force
+RUN npm install --production --legacy-peer-deps --ignore-scripts --no-optional
 RUN npm cache clean --force
 
 # Copiar código fonte
@@ -26,8 +27,8 @@ WORKDIR /app
 
 # Instalar dependências de produção
 COPY package*.json ./
-RUN npm install --production --legacy-peer-deps
 RUN npm cache clean --force
+RUN npm install --production --legacy-peer-deps --ignore-scripts --no-optional
 
 # Copiar build
 COPY --from=builder /app/dist ./dist
