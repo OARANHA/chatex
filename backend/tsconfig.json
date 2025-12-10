@@ -3,9 +3,14 @@
     "target": "es6",
     "module": "commonjs",
     "outDir": "./dist",
-    "strict": true,
+    "strict": false,
     "noImplicitAny": false,
+    "strictNullChecks": false,
+    "strictFunctionTypes": false,
+    "strictBindCallApply": false,
     "strictPropertyInitialization": false,
+    "noImplicitThis": false,
+    "alwaysStrict": false,
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
@@ -14,7 +19,9 @@
     "sourceMap": true,
     "rootDir": "./src",
     "resolveJsonModule": true,
-    "useUnknownInCatchVariables": false
+    "useUnknownInCatchVariables": false,
+    "suppressImplicitAnyIndexErrors": true,
+    "noLib": false
   },
   "exclude": [
     "dist",
