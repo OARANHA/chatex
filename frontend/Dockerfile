@@ -17,8 +17,8 @@ RUN npm run build
 # Production stage
 FROM nginx:alpine AS production
 
-# Copiar build para nginx (verificar estrutura do build)
-COPY --from=builder /app/dist /usr/share/nginx/html
+# Copiar build para nginx (Quasar PWA gera em /dist/pwa)
+COPY --from=builder /app/dist/pwa /usr/share/nginx/html
 
 # Copiar configuração nginx
 COPY nginx.conf /etc/nginx/nginx.conf
