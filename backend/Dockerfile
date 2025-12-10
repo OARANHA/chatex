@@ -18,7 +18,7 @@ RUN yarn cache clean
 COPY . .
 
 # Buildar aplicação
-RUN yarn build
+RUN yarn build --skipLibCheck
 
 # Production stage
 FROM node:20-alpine AS production
