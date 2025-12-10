@@ -14,11 +14,14 @@ RUN yarn cache clean
 RUN yarn install --production --ignore-engines
 RUN yarn cache clean
 
+# Instalar TypeScript para build
+RUN yarn add typescript --dev
+
 # Copiar código fonte
 COPY . .
 
 # Buildar aplicação
-RUN npm run build
+RUN yarn build
 
 # Production stage
 FROM node:20-alpine AS production
