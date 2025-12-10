@@ -14,11 +14,15 @@ RUN yarn cache clean
 RUN yarn install --ignore-engines
 RUN yarn cache clean
 
+# Adicionar type definitions que faltam
+RUN yarn add @types/pino-std-serializers --dev
+RUN yarn add @types/pino --dev
+
 # Copiar código fonte
 COPY . .
 
 # Buildar aplicação
-RUN yarn build --skipLibCheck
+RUN yarn build
 
 # Production stage
 FROM node:20-alpine AS production
