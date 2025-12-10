@@ -9,10 +9,11 @@ WORKDIR /app
 COPY package*.json ./
 COPY tsconfig.json ./
 
-# Instalar dependências
-RUN npm cache clean --force
-RUN npm install --production --legacy-peer-deps --ignore-scripts --no-optional
-RUN npm cache clean --force
+# Instalar yarn e dependências
+RUN npm install -g yarn
+RUN yarn cache clean
+RUN yarn install --production --ignore-engines
+RUN yarn cache clean
 
 # Copiar código fonte
 COPY . .
@@ -25,10 +26,11 @@ FROM node:20-alpine AS production
 
 WORKDIR /app
 
-# Instalar dependências de produção
+# Instalar yarn e dependências de produção
 COPY package*.json ./
-RUN npm cache clean --force
-RUN npm install --production --legacy-peer-deps --ignore-scripts --no-optional
+RUN npm install -g yarn
+RUN yarn cache clean
+RUN yarn install --production --ignore-engines
 
 # Copiar build
 COPY --from=builder /app/dist ./dist
