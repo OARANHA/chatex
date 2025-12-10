@@ -1,95 +1,194 @@
-[![Grupo do WhatsApp](https://img.shields.io/badge/WhatsApp-Grupo%20Whazing-brightgreen.svg)](https://grupo.whazing.com.br)
+# Chatex - Plataforma de Comunicação Multicanal
 
-[Fork do projeto ldurans](https://github.com/ldurans/izing.open.io)
+## 🎯 Sobre
 
-# Izing com painel SaaS - Hub NotificaMe(facebook e instagram) - Wavoip
+Plataforma SaaS para gestão de atendimento multicanal com SDK próprio e integrações oficiais.
 
-Preço especial por canal NotificaMe chamar whatsapp (48) 99941-6725
+## 🚀 Tecnologias
 
-https://wavoip.com/
+- **Backend**: Node.js + TypeScript + PostgreSQL + Redis
+- **Frontend**: Vue.js + Quasar Framework
+- **SDK**: 28web SDK (WhatsApp Cloud API, Facebook, Instagram, Telegram)
+- **Infraestrutura**: Docker + Nginx + PM2
 
-- Cupom 50% desconto Wavoip
+## 📱 Canais Suportados
 
-```bash
-whazing
+- ✅ WhatsApp Cloud API
+- ✅ Facebook Messenger
+- ✅ Instagram Direct
+- ✅ Telegram Bot
+
+## 🏗️ Arquitetura
+
+- **SDK 28web**: Próprio, substituindo notificamehubsdk
+- **Multiempresas**: Arquitetura SaaS completa
+- **API REST**: Backend robusto e escalável
+- **Interface Moderna**: UX/UI profissional
+
+## 🌐 Deploy
+
+- **Backend**: `chatexend.28web.com.br`
+- **Frontend**: `chatex.28web.com.br`
+- **Infraestrutura**: Docker containers
+
+## 📦 Estrutura do Projeto
+
+```
+chatex/
+├── backend/                 # API Node.js + TypeScript
+│   ├── src/
+│   │   ├── services/
+│   │   │   └── Hub28web/   # SDK 28web próprio
+│   │   ├── controllers/
+│   │   ├── models/
+│   │   └── routes/
+│   ├── dist/               # Build compilado
+│   └── package.json
+├── frontend/               # Vue.js + Quasar
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   └── layouts/
+│   ├── dist/pwa/           # Build compilado
+│   └── package.json
+├── docs/                   # Documentação
+├── docker-compose.yml      # Configuração Docker
+└── README.md
 ```
 
-Um sistema para gestão de atendimento multicanais centralizado.
+## 🔧 SDK 28web
 
-usuario Painel SaaS: super@izing.io senha: 123456
+Nosso SDK próprio para comunicação multicanal:
 
-usuario normal: admin@izing.io senha: 123456
+### 📱 WhatsApp Cloud API
+- Integração oficial com Meta
+- Templates de mensagem
+- Status de entrega em tempo real
+- Suporte a mídias
 
-**IMPORTANTE**: não garantimos que a utilização desta ferramenta não irá gerar bloqueio nas contas utilizadas. São bots que em sua maioria utilizam APIs secundarias para comunicação com os fornecedores dos serviços. Use com responsabilidade!
+### 💬 Facebook Messenger
+- API Graph do Facebook
+- Webhooks para mensagens
+- Botões e quick replies
 
-<br/>
+### 📷 Instagram Direct
+- API Graph do Instagram
+- Mensagens privadas
+- Mídia e stories
 
-## Principais funcionalidades
+### 🤖 Telegram Bot
+- Telegram Bot API
+- Comandos e inline queries
+- Grupos e canais
 
-- Multíplos canais de atendimento ✅
-- Multíplos usuários simultâneos por canais de atendimento ✅
-- Iniciar conversa com contatos existentes (whatsapp) ✅
-- Construção de Chatbot interativo ✅
-- Enviar e receber mensagens ✅
-- Enviar e receber mídias diversas (imagens/áudio/documentos) ✅
-- Multiempresas (abordagem de base compartilhada)
+## 🚀 Instalação Local
 
-<br/>
+### Pré-requisitos
+- Node.js 20+
+- PostgreSQL 15+
+- Redis 7+
+- Docker (opcional)
 
-## Instalando
-Seguem links sugerimos:
--  [Como Instalar o IZING AAPANEL -  Video](https://www.youtube.com/watch?v=pw5KMtdVw0s)
--  [Como Instalar o IZING - Video](https://youtu.be/-Woqu4W5Zzs?si=jcZYX3yPL60XkAd)
--  [Como Instalar o IZING - Video opção 2](https://youtu.be/bZ-jXRtcGyc?si=B8oQxv0V0V36fgrF)
-
--  [Como Instalar o IZING VPS - Texto - UBUNTU 20, 22](docs/INSTALL_VPS_UBUNTU_20_22.md)
-
--  [Instalador automatico IZING LOCALHOST](https://github.com/cleitonme/izing.local)
--  [Instalador automatico](https://github.com/cleitonme/izing.instalador)
-<br/>
-
-
-## Atualizando
-
-Tem script "update-izing" para facilitar atualização ele somente funciona se tiver instalado pasta izing.io
-
-sh update-izing
-
-<br/>
-
-**IMPORTANTE**: verifique sempre o .env.example e ajuste o seu .env antes de atualizar, uma vez que algumas novas variáveis podem ser adicionadas.
-
-
-<br/>
-
-## FIQUE ATENTO
-
-A utilização desta ferramenta é feita por sua conta e risco. O código é aberto e todos podem contribuir.
-
-Este projeto não é afiliado, associado, autorizado, endossado por, ou de qualquer forma oficialmente ligado à WhatsApp, ou a qualquer uma das suas filiais ou afiliadas. O website oficial da WhatsApp pode ser encontrado em <https://whatsapp.com>. "WhatsApp", bem como nomes, marcas, emblemas e imagens relacionadas são marcas registadas dos seus respectivos proprietários.
-
-## Recomendação de VPS boa e barata
-
--  [Powerful cloud VPS & Web hosting.](https://control.peramix.com/?affid=58)
-
-- Cupom 25% desconto "WHAZING"
-
+### Backend
 ```bash
-WHAZING
+cd backend
+npm install
+npm run build
+npm run dev:server
 ```
 
-#### Curtiu? Apoie o projeto!! Com sua doação, será possível continuar com as atualizações. Segue QR code (PIX)  
+### Frontend
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-[<img src="donate.jpg" height="160" width="180"/>](donate.jpg)
+## 🐳 Docker
 
-## Consultoria particular
+### Subir containers
+```bash
+docker-compose up -d
+```
 
-Para quem gostaria de uma consultoria ou que eu faça instalação pode chamar no whatsapp (será cobrado por isso) 48 999416725
+### Parar containers
+```bash
+docker-compose down
+```
 
--  [Versão baseada no izing com Painel SaaS e API Baileys](https://github.com/cleitonme/Whazing-SaaS)
-# zaap.izing.open.io
-# zaap.izing.open.io
-# zaap.izing.open.io
-# zaap.izing.open.io
-# zaap.izing.open.io
-# zaap.izing.open.io
+## 🌐 Variáveis de Ambiente
+
+### Backend (.env)
+```env
+NODE_ENV=development
+PORT=3000
+DB_HOST=localhost
+DB_PORT=5432
+POSTGRES_USER=chatex
+POSTGRES_PASSWORD=chatex@2024
+POSTGRES_DB=chatex
+IO_REDIS_SERVER=localhost
+IO_REDIS_PORT=6379
+IO_REDIS_PASSWORD=chatex@2024
+BACKEND_URL=http://localhost:3100
+FRONTEND_URL=http://localhost:3003
+JWT_SECRET=seu_jwt_secret
+JWT_REFRESH_SECRET=seu_jwt_refresh_secret
+```
+
+### Frontend (.env)
+```env
+VUE_URL_API=http://localhost:3100
+VUE_FACEBOOK_APP_ID=sua_app_id
+```
+
+## 📊 Monitoramento
+
+- **PM2**: Gerenciamento de processos
+- **Logs**: Estruturados e centralizados
+- **Health Checks**: Endpoints de verificação
+- **Métricas**: Performance e uso
+
+## 🔐 Segurança
+
+- **JWT**: Autenticação com tokens
+- **Rate Limiting**: Proteção contra abuso
+- **CORS**: Configuração segura
+- **Input Validation**: Validação de dados
+- **SQL Injection**: Proteção com ORM
+
+## 🧪 Testes
+
+```bash
+# Backend
+cd backend
+npm test
+
+# Frontend
+cd frontend
+npm run test:unit
+```
+
+## 📝 Contribuição
+
+1. Fork o projeto
+2. Crie uma branch (`git checkout -b feature/nova-funcionalidade`)
+3. Commit suas mudanças (`git commit -m 'Adiciona nova funcionalidade'`)
+4. Push para a branch (`git push origin feature/nova-funcionalidade`)
+5. Abra um Pull Request
+
+## 📄 Licença
+
+AGPL-3.0 - Veja o arquivo [LICENSE](LICENSE) para detalhes.
+
+## 👥 Desenvolvimento
+
+Desenvolvido por 28web com SDK próprio e integrações oficiais.
+
+### Contato
+- **Website**: https://28web.com.br
+- **Email**: contato@28web.com.br
+
+---
+
+**Chatex** - Comunicação multicanal simplificada com poder do SDK próprio! 🚀

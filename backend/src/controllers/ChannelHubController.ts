@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import CreateChannelsService from "../services/WbotNotificame/CreateChannelsService";
-import { getIO } from "../libs/socket";
-import ListChannels from "../services/WbotNotificame/ListChannels";
 import { setChannelWebhook } from "../helpers/SetChannelWebhook";
+import { getIO } from "../libs/socket";
+import CreateChannelsService from "../services/Wbot28web/CreateChannelsService";
+import ListChannels from "../services/Wbot28web/ListChannels";
 
 export interface IChannel {
   name: string;

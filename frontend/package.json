@@ -1,17 +1,18 @@
 {
-  "name": "izing",
+  "name": "28web",
   "version": "2.4.0",
   "description": "Bot Multiatendimento, multicanais e multiempresas.",
-  "productName": "IZING",
+  "productName": "28web",
   "author": "Durans <lumardyelson@gmail.com>",
   "private": false,
   "license": "AGPL-3.0-or-later",
   "github": "https://github.com/thiagomflores/zaap.izing.open.io",
   "scripts": {
     "fix": "eslint --ext .js,.vue ./ --fix",
-    "start": "pm2 start server.js --name izing-frontend",
-    "stop": "pm2 stop server.js --name izing-frontend",
-    "build": "export NODE_OPTIONS=--openssl-legacy-provider && npx quasar build -P -m pwa"
+    "start": "pm2 start server.js --name 28web-frontend",
+    "stop": "pm2 stop server.js --name 28web-frontend",
+    "dev": "set NODE_OPTIONS=--openssl-legacy-provider && npx quasar dev -p 3003",
+    "build": "set NODE_OPTIONS=--openssl-legacy-provider && npx quasar build -P -m pwa"
   },
   "dependencies": {
     "@quasar/cli": "^2.4.0",

@@ -1,14 +1,14 @@
 require("dotenv").config();
-import { Client, TextContent } from "notificamehubsdk";
-import Contact from "../../models/Contact";
-import CreateMessageService from "./CreateMessageService";
 import { showHubToken } from "../../helpers/ShowHubToken";
-import { logger } from "../../utils/logger";
-import Whatsapp from "../../models/Whatsapp";
-import Ticket from "../../models/Ticket";
 import socketEmit from "../../helpers/socketEmit";
-import { pupa } from "../../utils/pupa";
+import Contact from "../../models/Contact";
+import Ticket from "../../models/Ticket";
 import User from "../../models/User";
+import Whatsapp from "../../models/Whatsapp";
+import { logger } from "../../utils/logger";
+import { pupa } from "../../utils/pupa";
+import { Client, TextContent } from "../Hub28web";
+import CreateMessageService from "./CreateMessageService";
 
 export const SendTextMessageService = async (
   message: string,
@@ -43,15 +43,16 @@ export const SendTextMessageService = async (
     whatsapp = channel
   }
 
-  const notificameHubToken = await showHubToken(
+  const hub28webToken = await showHubToken(
     whatsapp.tenantId.toString()
   );
 
-  const client = new Client(notificameHubToken);
+  const client = new Client(hub28webToken);
 
   logger.info("ticket?.channel " + ticket?.channel);
 
-  const channelClient = client.setChannel(ticket?.channel.split('hub_')[1]);
+  const channelType = ticket?.channel?.split('hub_')[1] || 'whatsapp';
+  const channelClient = client.setChannel(channelType);
 
   const content = new TextContent(body);
 
@@ -77,11 +78,20 @@ export const SendTextMessageService = async (
 
     let data: any;
 
-    try {
-      const jsonStart = response.indexOf("{");
-      const jsonResponse = response.substring(jsonStart);
-      data = JSON.parse(jsonResponse);
-    } catch (error) {
+    // Tratar resposta do SDK 28web (ApiResponse<Message>)
+    if (response && typeof response === 'object' && 'data' in response) {
+      data = (response as any).data;
+    } else if (typeof response === 'string') {
+      // Compatibilidade com resposta string (legado)
+      const responseStr = response as string;
+      try {
+        const jsonStart = responseStr.indexOf("{");
+        const jsonResponse = responseStr.substring(jsonStart);
+        data = JSON.parse(jsonResponse);
+      } catch (error) {
+        data = response;
+      }
+    } else {
       data = response;
     }
 

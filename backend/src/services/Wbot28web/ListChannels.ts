@@ -1,19 +1,19 @@
 import { showHubToken } from "../../helpers/ShowHubToken";
 import { logger } from "../../utils/logger";
-import { Client } from "notificamehubsdk";
+import { Client } from "../Hub28web";
 require("dotenv").config();
 
 const ListChannels = async (tenantId: string): Promise<any> => {
   try {
-    const notificameHubToken = await showHubToken(tenantId);
+    const hub28webToken = await showHubToken(tenantId);
 
-    if (!notificameHubToken) {
-      throw new Error("NOTIFICAMEHUB_TOKEN_NOT_FOUND");
+    if (!hub28webToken) {
+      throw new Error("HUB28WEB_TOKEN_NOT_FOUND");
     }
 
-    const client = new Client(notificameHubToken);
+    const client = new Client(hub28webToken);
 
-    const response = await client.listChannels();
+    const response = await client.getChannels();
     logger.info("" + JSON.stringify(response));
     return response;
   } catch (error: any) {

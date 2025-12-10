@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import Contact from "../models/Contact";
 import Ticket from "../models/Ticket";
-import { SendTextMessageService } from "../services/WbotNotificame/SendTextMessageService";
 import Whatsapp from "../models/Whatsapp";
-import { SendMediaMessageService } from "../services/WbotNotificame/SendMediaMessageService";
+import { SendMediaMessageService } from "../services/Wbot28web/SendMediaMessageService";
+import { SendTextMessageService } from "../services/Wbot28web/SendTextMessageService";
 import { logger } from "../utils/logger";
 
 export const send = async (req: Request, res: Response): Promise<Response> => {

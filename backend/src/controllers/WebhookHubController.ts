@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import Whatsapp from "../models/Whatsapp";
-import HubMessageListener from "../services/WbotNotificame/HubMessageListener";
+import HubMessageListener from "../services/Wbot28web/HubMessageListener";
 import { logger } from "../utils/logger";
 
 export const listen = async (

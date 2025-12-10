@@ -1,17 +1,17 @@
-import Whatsapp from "../models/Whatsapp";
 import { IChannel } from "../controllers/ChannelHubController";
+import Whatsapp from "../models/Whatsapp";
 import { showHubToken } from "./ShowHubToken";
 
-import { Client, MessageSubscription } from "notificamehubsdk";
+import { Client, MessageSubscription } from "../services/Hub28web";
 import { logger } from "../utils/logger";
 
 export const setChannelWebhook = async (
   whatsapp: IChannel,
   whatsappId: string
 ) => {
-  const notificameHubToken = await showHubToken(whatsapp.tenantId.toString());
+  const hub28webToken = await showHubToken(whatsapp.tenantId.toString());
 
-  const client = new Client(notificameHubToken);
+  const client = new Client(hub28webToken);
 
   const url = `${process.env.BACKEND_URL}/hub-webhook/${whatsapp.number}`;
 
