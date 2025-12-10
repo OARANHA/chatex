@@ -9,10 +9,11 @@ WORKDIR /app
 COPY package*.json ./
 COPY tsconfig.json ./
 
-# Instalar dependências completas para build (incluindo dev)
-RUN yarn cache clean
+# Remover lock file e limpar cache para resolver conflitos de tipos
+RUN rm -f yarn.lock && yarn cache clean
+
+# Instalar dependências com resolutions (Express/Multer compatibilidade)
 RUN yarn install --ignore-engines
-RUN yarn cache clean
 
 # Adicionar type definitions que faltam
 RUN yarn add @types/pino-std-serializers --dev
