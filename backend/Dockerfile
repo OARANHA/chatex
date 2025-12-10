@@ -9,13 +9,10 @@ WORKDIR /app
 COPY package*.json ./
 COPY tsconfig.json ./
 
-# Instalar dependências (yarn já vem com Node.js)
+# Instalar dependências completas para build (incluindo dev)
 RUN yarn cache clean
-RUN yarn install --production --ignore-engines
+RUN yarn install --ignore-engines
 RUN yarn cache clean
-
-# Instalar TypeScript para build
-RUN yarn add typescript --dev
 
 # Copiar código fonte
 COPY . .
